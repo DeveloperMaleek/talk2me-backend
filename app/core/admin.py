@@ -5,12 +5,13 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
 from core import models
+# from user import models
 
 
 class UserAdmin(BaseUserAdmin):
     # Define the admin pages for users.
     ordering = ['id']
-    list_display = ['email', 'users_name']
+    list_display = ['email', 'first_name', 'last_name']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (
@@ -33,7 +34,13 @@ class UserAdmin(BaseUserAdmin):
                 'email',
                 'password1',
                 'password2',
-                'users_name',
+                'first_name',
+                'last_name',
+                'is_user_anonymous',
+                'anonymous_display_name',
+                'profile_image_url',
+                'anonymous_profile_image_url',
+                'user_bio'
                 'is_active',
                 'is_staff',
                 'is_superuser',
@@ -42,4 +49,4 @@ class UserAdmin(BaseUserAdmin):
     )
 
 
-admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Talk2meUser, UserAdmin)
