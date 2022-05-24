@@ -1,10 +1,16 @@
 # User models for Talk2me
+from email.policy import default
+from random import choices
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
     PermissionsMixin
 )
+
+from django.utils.translation import gettext_lazy as _
+
+from multiselectfield import MultiSelectField
 
 
 class UserManager(BaseUserManager):
@@ -49,12 +55,26 @@ class UserManager(BaseUserManager):
         return user
 
 
-class UserEmotions(models.Model):
-    # Emotions of users in the system
-    emotions = models.CharField(max_length=30, default='')
+# Emotions of users in the system
+EMOTIONS = (
+    (1, 'hopeful'),
+    (2, 'Excited'),
+    (3, 'Sad'),
+    (4, 'Anxious'),
+    (5, 'Frustrated'),
+    (6, 'Withdrawn'),
+    (7, 'Stressed'),
+    (8, 'Scared'),
+    (9, 'Lonely'),
+    (10, 'Happy'),
+    (11, 'Indifferent'),
+    (12, 'Angry'),
+    (13, 'No feelings'),
+)
 
 
 class Talk2meUser(AbstractBaseUser, PermissionsMixin):
+
     # User in the system
     email = models.EmailField(
         verbose_name="Email address",
@@ -73,7 +93,8 @@ class Talk2meUser(AbstractBaseUser, PermissionsMixin):
     # date_created = models.DateTimeField(auto_now_add=True)
     # date_modified = models.DateTimeField(auto_now=True)
     is_staff = models.BooleanField(default=False)
-    user_emotions = models.ManyToManyField(UserEmotions, default='')
+
+    user_emotions = MultiSelectField(choices=EMOTIONS, default=13)
 
     objects = UserManager()
 

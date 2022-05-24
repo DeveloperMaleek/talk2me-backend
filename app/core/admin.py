@@ -52,4 +52,4 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(models.Talk2meUser, UserAdmin)
-admin.site.register(models.UserEmotions)
+# admin.site.register(models.UserEmotions)
