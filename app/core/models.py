@@ -1,5 +1,4 @@
 # User models for Talk2me
-
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,
@@ -11,41 +10,48 @@ from django.contrib.auth.models import (
 class UserManager(BaseUserManager):
     # Manager for user in the system
 
-    def create_user(self, request):
-        first_name = request.data.get('first_name')
-        last_name = request.data.get('last_name')
-        email = request.data.get('email')
-        password = request.data.get('password')
-        user_bio = request.data.get('user_bio')
+    def create_user(self, email, password=None, **extra_fields):
+        # Create, save and return a new user.
+        if not email:
+            raise ValueError('User must have email address.')
+        user = self.model(email=self.normalize_email(email), **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
 
-        if not email or email == '':
-            raise ValueError('Please enter a valid email address')
+        return user
 
-        try:
-            user: Talk2meUser.objects.get(email=self.normalize_email(email))
-            if user:
-                raise ValueError('Email address already exist')
-        except Talk2meUser.DoesNotExist:
-            new_user = Talk2meUser.objects.create(
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-                user_bio=user_bio,
-            )
+    def setup_account_one(self, request):
+        # Update and return user's first name and last name
+        new_user = Talk2meUser.objects.get(email=request.user.email)
+        new_user.first_name = 'first_name'
+        new_user.last_name = 'last_name'
 
-            new_user.set_password(password)
-            new_user.save(using=self._db)
+        new_user.save(using=self._db)
 
-            return new_user
+        return new_user
+
+    def setup_account_two(self, request):
+        # Update and return user's account setup two
+        new_user = Talk2meUser.objects.get(email=request.user.email)
+        new_user.user_emotions = 'user_emotions'
+
+        new_user.save(using=self._db)
+
+        return new_user
 
     def create_superuser(self, email, password):
-        # create and return a superuser
+        """Create and return a new superuser"""
         user = self.create_user(email, password)
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
 
         return user
+
+
+class UserEmotions(models.Model):
+    # Emotions of users in the system
+    emotions = models.CharField(max_length=30, default='')
 
 
 class Talk2meUser(AbstractBaseUser, PermissionsMixin):
@@ -55,71 +61,20 @@ class Talk2meUser(AbstractBaseUser, PermissionsMixin):
         unique=True,
         max_length=255
     )
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, default='')
+    last_name = models.CharField(max_length=255, default='')
     is_active = models.BooleanField(default=True)
     is_user_anonymous = models.BooleanField(default=False)
     anonymous_display_name = models.CharField(max_length=255, default="")
     profile_image_url = models.TextField(default='')
     anonymous_profile_image_url = models.TextField(default='')
     user_bio = models.TextField(max_length=300, default='')
-    is_blocked = models.BooleanField(default=False)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
+    # is_blocked = models.BooleanField(default=False)
+    # date_created = models.DateTimeField(auto_now_add=True)
+    # date_modified = models.DateTimeField(auto_now=True)
     is_staff = models.BooleanField(default=False)
+    user_emotions = models.ManyToManyField(UserEmotions, default='')
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-
-
-# from django.db import models
-# from django.contrib.auth.models import (
-#     BaseUserManager,
-#     AbstractBaseUser,
-#     PermissionsMixin)
-
-
-# class UserManager(BaseUserManager):
-#     # Manager for users.
-
-#     def create_user(self, email, password=None, **extra_fields):
-#         # create and return a user
-#         if not email:
-#             raise ValueError('User must have an email address')
-#         user = self.model(email=self.normalize_email(email), **extra_fields)
-#         user.set_password(password)
-#         user.save(using=self._db)
-
-#         return user
-
-#     def create_superuser(self, email, password):
-#         # create and return a superuser
-#         user = self.create_user(email, password)
-#         user.is_staff = True
-#         user.is_superuser = True
-#         user.save(using=self._db)
-
-#         return user
-
-
-# class User(AbstractBaseUser):
-#     # users in the system
-#     email = models.EmailField(max_length=255, unique=True)
-#     first_name = models.CharField(max_length=255)
-#     last_name = models.CharField(max_length=255, default="")
-#     is_anonymous = models.BooleanField(default=False)
-#     anonymous_display_name = models.CharField(max_length=255, default="")
-#     profile_image_url = models.TextField(default='')
-#     anonymous_profile_image_url = models.TextField(default='')
-#     user_bio = models.TextField(max_length=300, default='')
-#     is_active = models.BooleanField(default=True)
-#     is_staff = models.BooleanField(default=False)
-
-#     objects = UserManager()
-
-# USERNAME_FIELD = 'email'
-
-
-# class Talk2meUser(User):
-#     # Users in the system

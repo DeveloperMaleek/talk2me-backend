@@ -13,7 +13,8 @@ class UserAdmin(BaseUserAdmin):
     ordering = ['id']
     list_display = ['email', 'first_name', 'last_name']
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'password', 'first_name',
+                'last_name', 'is_user_anonymous', 'anonymous_display_name', 'profile_image_url', 'anonymous_profile_image_url', 'user_bio', 'user_emotions',)}),
         (
             _('Permissions'),
             {
@@ -40,7 +41,8 @@ class UserAdmin(BaseUserAdmin):
                 'anonymous_display_name',
                 'profile_image_url',
                 'anonymous_profile_image_url',
-                'user_bio'
+                'user_bio',
+                'user_emotions',
                 'is_active',
                 'is_staff',
                 'is_superuser',
@@ -50,3 +52,4 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(models.Talk2meUser, UserAdmin)
+admin.site.register(models.UserEmotions)
