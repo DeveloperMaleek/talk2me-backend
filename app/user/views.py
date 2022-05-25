@@ -5,12 +5,13 @@ from rest_framework import generics, authentication, permissions
 
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
+from rest_framework.response import Response
 
 from user.serializers import (
     UserCreateSerializer,
     UserUpdateSerializer,
-    UserSetupOneSerializer,
-    UserSetupTwoSerializer,
+    UserSetupSerializer,
+    # UserAnonymousProfile,
     AuthTokenSerializer,
 )
 
@@ -26,20 +27,9 @@ class CreateTokenView(ObtainAuthToken):
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
 
-class SetupOneUserView(generics.UpdateAPIView):
-    # Setup account (personal information) for a new user in the system.
-    serializer_class = UserSetupOneSerializer
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        # Retrieve and return the authenticated user.
-        return self.request.user
-
-
-class SetupTwoUserView(generics.UpdateAPIView):
-    # Setup account (feelings and goals) for a new user in the system.
-    serializer_class = UserSetupTwoSerializer
+class SetupUserView(generics.UpdateAPIView):
+    # Setup account (feelings, triggers and goals) for a new user in the system.
+    serializer_class = UserSetupSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 

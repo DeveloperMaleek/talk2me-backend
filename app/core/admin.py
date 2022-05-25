@@ -43,6 +43,9 @@ class UserAdmin(BaseUserAdmin):
                 'anonymous_profile_image_url',
                 'user_bio',
                 'user_emotions',
+                'user_emotions_triggers',
+                'user_goals',
+                'user_current_emotional_state',
                 'is_active',
                 'is_staff',
                 'is_superuser',
@@ -52,4 +55,10 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(models.Talk2meUser, UserAdmin)
-# admin.site.register(models.UserEmotions)
+admin.site.register(models.UserEmotions)
+admin.site.register(models.UserEmotionsTriggers)
+admin.site.register(models.UserGoals)
+admin.site.register(models.UserCurrentFEmotionalState)
+admin.site.register(models.UserAnonymousDisplayImage)
+admin.site.register(models.UserProfileCoverImage)
+admin.site.register(models.UserSocialUrls)
