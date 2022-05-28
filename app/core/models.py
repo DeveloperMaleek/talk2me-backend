@@ -1,5 +1,7 @@
 # User models for Talk2me
 
+from rest_framework import status
+from rest_framework.response import Response
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,
@@ -105,10 +107,13 @@ class UserProfileCoverImage(models.Model):
 
 
 class UserSocialUrls(models.Model):
-    # Default profile cover images of users in the system
+    # Social links of users in the system
     facebook = models.CharField(max_length=255, default='', )
     linkedin = models.CharField(max_length=255, default='', )
     twitter = models.CharField(max_length=255, default='', )
+
+    def __str__(self):
+        return "%s %s %s" % (self.facebook, self.linkedin, self.twitter)
 
 
 class Talk2meUser(AbstractBaseUser, PermissionsMixin):

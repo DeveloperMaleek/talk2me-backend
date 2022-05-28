@@ -12,6 +12,7 @@ from user.serializers import (
     UserUpdateSerializer,
     UserSetupSerializer,
     # UserAnonymousProfile,
+    # UserLoginSerializer,
     AuthTokenSerializer,
 )
 
@@ -25,6 +26,12 @@ class CreateTokenView(ObtainAuthToken):
     # Create a new auth token for the user
     serializer_class = AuthTokenSerializer
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+
+# class LoginUserView(generics.RetrieveAPIView):
+#     # Login an existing user into the system
+#     serializer_class = UserLoginSerializer
+#     permission_classes = [permissions.IsAuthenticated]
 
 
 class SetupUserView(generics.UpdateAPIView):

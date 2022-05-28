@@ -1,12 +1,12 @@
 # Serializers for the user API View
 
-from dataclasses import field
-import email
-from pyexpat import model
+
 from django.contrib.auth import (
     get_user_model,
     authenticate,
 )
+from rest_framework import status
+from rest_framework.response import Response
 
 from django.utils.translation import gettext as _
 
@@ -26,13 +26,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return get_user_model().objects.create_user(**validated_data)
 
 
+
 class UserUpdateSerializer(serializers.ModelSerializer):
     # Serializer for user update account.
 
     class Meta:
         model = get_user_model()
-        fields = ['email', 'password',
+        fields = ['id', 'email', 'password',
                   'first_name', 'last_name', 'is_therapist', 'is_user_anonymous', 'profile_image_url', 'profile_cover_image_url', 'anonymous_display_name', 'anonymous_profile_image_url', 'user_bio', 'user_social_urls', 'user_goals', ]
+        read_only_fields = ['id']
         extra_kwargs = {'password': {'min_length': 5}}
 
     def update(self, instance, validated_data):
@@ -65,12 +67,13 @@ class UserSetupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['user_emotions', 'user_emotions_triggers',
+        fields = ['id', 'user_emotions', 'user_emotions_triggers',
                   'user_goals', ]
 
     def setup_two(self, validated_data):
         # setup and return four account setup processes for users.
         return get_user_model().objects.setup_account(**validated_data)
+
 
 
 class AuthTokenSerializer(serializers.Serializer):

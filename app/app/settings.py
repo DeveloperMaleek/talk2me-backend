@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-oerjxlqd@c)(et2ey-6)qdx!^ek!=m!)(e@!lnkcwk(4idr1@p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'talk2me-backend-app.herokuapp.com']
 
 
 # Application definition
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_spectacular',
     'user',
-    'multiselectfield',
 ]
 
 MIDDLEWARE = [

@@ -46,6 +46,7 @@ class UserAdmin(BaseUserAdmin):
                 'user_emotions_triggers',
                 'user_goals',
                 'user_current_emotional_state',
+                'user_social_urls',
                 'is_active',
                 'is_staff',
                 'is_superuser',
