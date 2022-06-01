@@ -21,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = 'django-insecure-oerjxlqd@c)(et2ey-6)qdx!^ek!=m!)(e@!lnkcwk(4idr1@p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,7 +87,8 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST'),
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS')
+        'PASSWORD': os.environ.get('DB_PASS'),
+        'PORT': os.environ.get('DB_PORT')
     }
 }
 
@@ -127,6 +129,7 @@ CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'sanemadman',
     'API_KEY': '925817271764787',
     'API_SECRET': os.environ.get("SECRET_KEY_CLOUDINARY"),
+    # 'API_SECRET': 'lI9FTPXKw2Ke7q-wPl7-1gS4XT8',
     'STATICFILES_MANIFEST_ROOT': os.path.join(BASE_DIR, 'manifest'),
 }
 

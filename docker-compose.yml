@@ -23,6 +23,7 @@ services:
       - DB_NAME=talktome
       - DB_USER=malik
       - DB_PASS=AVNS_1etaY3jQEm9rmlc
+      - DB_PORT=25060
     depends_on:
       - db
 
