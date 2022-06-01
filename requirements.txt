@@ -2,6 +2,8 @@ Django>=3.2.4,<3.3
 djangorestframework>=3.12.4,<3.13
 psycopg2>=2.8.6,<2.9
 drf-spectacular>=0.15.1,<0.16
-django-multiselectfield>=0.1.12
+# django-multiselectfield>=0.1.12
 uwsgi>=2.0.19<2.1
 gunicorn>=19.9.0,<19.10.0
+django-cloudinary-storage==0.3.0
+cloudinary==1.29.0
