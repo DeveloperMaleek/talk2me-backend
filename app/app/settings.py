@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-oerjxlqd@c)(et2ey-6)qdx!^ek!=m!)(e@!lnkcwk(4idr1@p'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'talk2me-backend-app.herokuapp.com']
+ALLOWED_HOSTS = ['*', 'localhost', 'talk2me-backend-app.herokuapp.com']
 
 
 # Application definition
@@ -126,7 +126,7 @@ USE_TZ = True
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'sanemadman',
     'API_KEY': '925817271764787',
-    'API_SECRET': 'lI9FTPXKw2Ke7q-wPl7-1gS4XT8',
+    'API_SECRET': os.environ.get("SECRET_KEY_CLOUDINARY"),
     'STATICFILES_MANIFEST_ROOT': os.path.join(BASE_DIR, 'manifest'),
 }
 
