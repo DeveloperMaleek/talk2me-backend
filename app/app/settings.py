@@ -20,8 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
-# SECRET_KEY = 'django-insecure-oerjxlqd@c)(et2ey-6)qdx!^ek!=m!)(e@!lnkcwk(4idr1@p'
+# SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = 'django-insecure-oerjxlqd@c)(et2ey-6)qdx!^ek!=m!)(e@!lnkcwk(4idr1@p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -128,8 +128,8 @@ USE_TZ = True
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'sanemadman',
     'API_KEY': '925817271764787',
-    'API_SECRET': os.environ.get("SECRET_KEY_CLOUDINARY"),
-    # 'API_SECRET': 'lI9FTPXKw2Ke7q-wPl7-1gS4XT8',
+    # 'API_SECRET': os.environ.get("SECRET_KEY_CLOUDINARY"),
+    'API_SECRET': 'lI9FTPXKw2Ke7q-wPl7-1gS4XT8',
     'STATICFILES_MANIFEST_ROOT': os.path.join(BASE_DIR, 'manifest'),
 }
 
@@ -138,7 +138,7 @@ CLOUDINARY_STORAGE = {
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
