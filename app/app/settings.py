@@ -153,3 +153,6 @@ AUTH_USER_MODEL = 'core.Talk2meUser'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+
+# Checking if it workd
