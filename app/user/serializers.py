@@ -16,15 +16,37 @@ from rest_framework import serializers
 class UserCreateSerializer(serializers.ModelSerializer):
     # Serializers for user create account.
 
+    email = serializers.EmailField()
+    password = serializers.CharField(
+        style={'input_type': 'password'},
+        trim_whitespace=False,
+    )
+
     class Meta:
         model = get_user_model()
         fields = ['email', 'password', 'first_name']
         extra_kwargs = {'password': {'min_length': 5}}
 
+    # Create and return a user with encrypted password.
+
     def create(self, validated_data):
-        # Create and return a user with encrypted password.
         return get_user_model().objects.create_user(**validated_data)
 
+    # def validate(self, validated_data):
+    #     # Validate and authentcate the user.
+    #     email = validated_data.get('email')
+    #     password = validated_data.get('password')
+    #     user = authenticate(
+    #         request=self.context.get('request'),
+    #         username=email,
+    #         password=password,
+    #     )
+    #     if not user:
+    #         msg = _('Unable to authenticate with provided credentials')
+    #         raise serializers.ValidationError(msg, code='authorization')
+
+    #     validated_data['user'] = user
+    #     return validated_data
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -73,7 +95,6 @@ class UserSetupSerializer(serializers.ModelSerializer):
     def setup_two(self, validated_data):
         # setup and return four account setup processes for users.
         return get_user_model().objects.setup_account(**validated_data)
-
 
 
 class AuthTokenSerializer(serializers.Serializer):

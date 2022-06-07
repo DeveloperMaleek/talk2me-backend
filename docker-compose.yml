@@ -18,7 +18,7 @@ services:
       # - DB_HOST=db
       # - DB_NAME=devdb
       # - DB_USER=devuser
-      # - DB_PASS=talktome.
+      # - DB_PASS=talktome
       - DB_HOST=db-postgresql-fra1-25799-ayinle-do-user-8625609-0.b.db.ondigitalocean.com
       - DB_NAME=talktome
       - DB_USER=malik

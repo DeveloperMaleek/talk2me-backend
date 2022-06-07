@@ -8,6 +8,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin
 )
+from django.conf import settings
 
 from django.utils.translation import gettext_lazy as _
 
@@ -27,14 +28,14 @@ class UserManager(BaseUserManager):
 
     def setup_account(self, request):
         # Update and return user's account setup two
-        new_user = Talk2meUser.objects.get(email=request.user.email)
-        new_user.user_emotions = 'user_emotions'
-        new_user.user_emotions_triggers = 'user_emotions_triggers'
-        new_user.user_goals = 'user_goals'
+        user = Talk2meUser.objects.get(email=request.user.email)
+        user.user_emotions = 'user_emotions'
+        user.user_emotions_triggers = 'user_emotions_triggers'
+        user.user_goals = 'user_goals'
 
-        new_user.save(using=self._db)
+        user.save(using=self._db)
 
-        return new_user
+        return user
 
     # def set_profile_to_anonymous(self, request):
     #     # Set user's profile to anonymous
@@ -149,3 +150,70 @@ class Talk2meUser(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+class Organization(models.Model):
+    # Organization a user is affliated with
+    name_of_organization = models.CharField(max_length=255, unique=True)
+    organization_access_code = models.IntegerField(
+        unique=True, auto_created=True)
+    organization_domain_url = models.URLField(max_length=255, unique=True)
+    organization_contact_person = models.CharField(max_length=255)
+    organization_contact_person_email = models.EmailField(
+        unique=True, max_length=255)
+    org_users = models.ForeignKey(
+        Talk2meUser, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name_of_organization
+
+
+class TherapySessions(models.Model):
+    # Sessions users will have in the system
+    session_date = models.DateField()
+    number_of_sessions = models.SmallIntegerField()
+    session_users = models.ManyToManyField(Talk2meUser)
+
+
+class AvailableTimeSlots(models.Model):
+    # Time for the sessions for the users
+    # booking = models.ForeignKey(
+    #     TherapistBookingsSchedule, null=True, on_delete=models.CASCADE)
+    time_slot = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.time_slot
+
+
+class TherapistBookingsSchedule(models.Model):
+    # Booking sessions for therapist
+    DAY_CHOICES = (
+        ('MON', 'Monday'),
+        ('TUE', 'Tuesday'),
+        ('WED', 'Wednesday'),
+        ('THU', 'Thursday'),
+        ('FRI', 'Friday'),
+        ('SAT', 'Saturday'),
+        ('SUN', 'Sunday'),
+    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    therapist_number_of_sessions_per_day = models.IntegerField()
+    therapist_schedule_days = models.CharField(
+        choices=DAY_CHOICES, max_length=3)
+    available_time_slot = models.ManyToManyField(AvailableTimeSlots)
+
+    def create_therapist_schedules(self, request):
+        # Schedule and return a therapist available schedules
+        therapist_booking_date = TherapistBookingsSchedule.objects.get(
+            user=request.get.user)
+        therapist_booking_date.therapist_schedule_days = request.get.therapist_schedule_days,
+        therapist_booking_date.available_time_slot = request.get.available_time_slot,
+        therapist_booking_date.therapist_number_of_sessions_per_day = len(
+            therapist_booking_date.available_time_slot),
+        therapist_booking_date.save(using=self._db)
+
+        return therapist_booking_date
+
+    def __str__(self):
+        return self.therapist_schedule_days
