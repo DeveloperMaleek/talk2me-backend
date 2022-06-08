@@ -16,12 +16,6 @@ from rest_framework import serializers
 class UserCreateSerializer(serializers.ModelSerializer):
     # Serializers for user create account.
 
-    email = serializers.EmailField()
-    password = serializers.CharField(
-        style={'input_type': 'password'},
-        trim_whitespace=False,
-    )
-
     class Meta:
         model = get_user_model()
         fields = ['email', 'password', 'first_name']

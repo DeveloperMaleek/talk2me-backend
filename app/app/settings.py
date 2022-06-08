@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+import dotenv
+dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'user',
     'therapysessions',
+    'agora',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +92,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
-        'PORT': os.environ.get('DB_PORT')
+        # 'PORT': os.environ.get('DB_PORT')
     }
 }
 

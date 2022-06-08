@@ -31,5 +31,6 @@ urlpatterns = [
         name='api-docs',
     ),
     path('user/', include('user.urls')),
+    path('', include('agora.urls')),
     path('therapysessions/', include('therapysessions.urls')),
 ]

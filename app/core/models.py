@@ -151,6 +151,9 @@ class Talk2meUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
+    def __str__(self):
+        return self.email
+
 
 class Organization(models.Model):
     # Organization a user is affliated with
