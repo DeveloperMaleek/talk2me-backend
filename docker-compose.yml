@@ -15,15 +15,10 @@ services:
               python manage.py migrate &&
               python manage.py runserver 0.0.0.0:8000"
     environment:
-      # - DB_HOST=db
-      # - DB_NAME=devdb
-      # - DB_USER=devuser
-      # - DB_PASS=talktome
-      - DB_HOST=db-postgresql-fra1-25799-ayinle-do-user-8625609-0.b.db.ondigitalocean.com
-      - DB_NAME=talktome
-      - DB_USER=malik
-      - DB_PASS=AVNS_1etaY3jQEm9rmlc
-      - DB_PORT=25060
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=talktome
     depends_on:
       - db
 
